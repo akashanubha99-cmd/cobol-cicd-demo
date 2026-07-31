@@ -1,0 +1,6 @@
+open -e ~/cobol-cicd-demo/src/main/cobol/EMPCALC.CBL      # opens in TextEdit
+code ~/cobol-cicd-demo/src/main/cobol/EMPCALC.CBL
+exit
+clear
+
+
