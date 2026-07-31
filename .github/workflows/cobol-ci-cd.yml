@@ -1,0 +1,31 @@
+name: EMPCALC CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  compile-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GnuCOBOL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gnucobol4
+
+      - name: Compile EMPCALC
+        run: |
+          mkdir -p build
+          cobc -x -o build/EMPCALC src/main/cobol/EMPCALC.CBL -I src/main/cobol/copy
+
+      - name: Smoke-run against sample data
+        run: |
+          cd build
+          cp ../data/EMPIN.txt EMPIN
+          ./EMPCALC
+          echo "----- EMPOUT -----"
+          cat EMPOUT
